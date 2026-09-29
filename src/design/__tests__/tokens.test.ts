@@ -20,14 +20,16 @@ describe.each(['light', 'dark'] as const)('%s palette', (scheme) => {
     ['textMuted', p.textMuted, p.background],
     ['textMuted/surface', p.textMuted, p.surface],
     ['onPrimary', p.onPrimary, p.primary],
+    ['onHero', p.onHero, p.hero],
+    ['onHeroMuted', p.onHeroMuted, p.hero],
     ['danger', p.danger, p.background],
   ];
   it.each(pairs)('%s meets 4.5:1', (_name, fg, bg) => {
     expect(contrastRatio(fg, bg)).toBeGreaterThanOrEqual(MIN);
   });
 
-  it.each(STATE_IDS)('accent for %s meets 4.5:1 on background', (id) => {
-    expect(contrastRatio(stateAccents[id][scheme], p.background)).toBeGreaterThanOrEqual(MIN);
+  it.each(STATE_IDS)('text on the %s soft tint meets 4.5:1', (id) => {
+    expect(contrastRatio(p.text, stateAccents[id][scheme].soft)).toBeGreaterThanOrEqual(MIN);
   });
 });
 

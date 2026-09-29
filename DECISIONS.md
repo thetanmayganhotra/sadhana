@@ -47,3 +47,18 @@ Notification text and store listing copy must be added to the scanned set when t
 A unit test enforces WCAG 4.5:1 for text pairs and every state accent on the background in both
 light and dark mode — it already caught one failing saffron value. Fonts are system defaults until
 the serif (IAST + Devanagari) and sans are confirmed.
+
+## 2026-09-29 — Visual direction v2
+
+**D12. Palette switched to miniature-painting pigments** (founder feedback: v1 wasn't pretty
+enough; Headspace-level warmth as the bar, without copying it). Lapis blue for hero cards,
+marigold for the primary button, vermilion/rose/malachite/peacock as illustration pigments,
+warm ivory background. Dark mode is a deep night indigo rather than black. Headspace's
+signature orange is deliberately not the primary colour. State accents are now `{ fill, soft }`
+pairs: vivid `fill` for decoration only, `soft` tints must carry body text at 4.5:1 (tested).
+
+**D13. Today screen design preview uses static data** (`PREVIEW` in `app/(tabs)/today.tsx`) until
+`personalize()` and the practice log exist. The arch illustration and tab icons are plain View
+shapes, placeholders until commissioned art and an icon set are chosen.
+
+**D14. `react-native-web` added for browser previews only** (no simulator on the dev machine).

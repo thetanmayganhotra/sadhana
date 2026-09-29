@@ -1,12 +1,30 @@
 /**
  * Design tokens. PLACEHOLDER PALETTE — the final palette is set with the illustrator.
- * Direction: warm manuscript paper, ink, muted mineral pigments (simplified miniature art).
- * Contrast of text-on-surface pairs is enforced by src/design/__tests__/tokens.test.ts.
+ * Direction: the bright mineral pigments of Rajput/Pahari miniature painting — lapis, marigold,
+ * vermilion, rose, malachite — on warm ivory paper. Dark mode is a miniature night scene
+ * (deep indigo sky), not black.
+ * Contrast of text pairs is enforced by src/design/__tests__/tokens.test.ts.
  */
 
 import type { StateId } from '@/content/types';
 
 export type ColorScheme = 'light' | 'dark';
+
+/** Raw pigments for illustration shapes and decoration. Never used for body text. */
+export const pigments = {
+  lapis: '#3446C8',
+  lapisDeep: '#232F8F',
+  marigold: '#FFB627',
+  vermilion: '#F2603C',
+  rose: '#F7A1B5',
+  malachite: '#22A57B',
+  peacock: '#1E8C9E',
+  sky: '#A9C7FF',
+  cream: '#FFE9C7',
+  ivory: '#FFF7EC',
+  night: '#12163A',
+  ink: '#1E2340',
+} as const;
 
 export type Palette = {
   background: string;
@@ -17,49 +35,94 @@ export type Palette = {
   border: string;
   primary: string; // the one primary button per screen
   onPrimary: string;
+  hero: string; // large feature cards (e.g. today's practice)
+  onHero: string;
+  onHeroMuted: string;
   danger: string;
   focusRing: string;
 };
 
 export const palettes: Record<ColorScheme, Palette> = {
   light: {
-    background: '#F7F2E8', // manuscript paper
-    surface: '#FFFCF6',
-    surfaceRaised: '#FFFFFF',
-    text: '#2A241C', // lamp-black ink
-    textMuted: '#645A4C',
-    border: '#E4DACA',
-    primary: '#8A3B1F', // burnt sienna
-    onPrimary: '#FFFCF6',
-    danger: '#9E2A2B',
-    focusRing: '#2F5D8A',
+    background: pigments.ivory,
+    surface: '#FFFFFF',
+    surfaceRaised: '#FFFDF8',
+    text: pigments.ink,
+    textMuted: '#585D7C',
+    border: '#F0E4D2',
+    primary: pigments.marigold,
+    onPrimary: pigments.ink,
+    hero: pigments.lapis,
+    onHero: '#FFFFFF',
+    onHeroMuted: '#DDE2FF',
+    danger: '#C62F3B',
+    focusRing: pigments.lapis,
   },
   dark: {
-    background: '#16130F',
-    surface: '#1F1B16',
-    surfaceRaised: '#29241E',
-    text: '#F2EADC',
-    textMuted: '#B8AC99',
-    border: '#3A332A',
-    primary: '#E0A36B',
-    onPrimary: '#1F1B16',
-    danger: '#F08A80',
-    focusRing: '#8FB6DE',
+    background: pigments.night,
+    surface: '#1C2150',
+    surfaceRaised: '#252B61',
+    text: '#FFF4E4',
+    textMuted: '#B9BCE0',
+    border: '#2E3570',
+    primary: pigments.marigold,
+    onPrimary: pigments.ink,
+    hero: '#2A3290',
+    onHero: '#FFFFFF',
+    onHeroMuted: '#D2D7FF',
+    danger: '#FF8A80',
+    focusRing: pigments.marigold,
   },
 };
 
-/** One accent per user state. Placeholders — final values TBD with the illustrator. */
-export const stateAccents: Record<StateId, { light: string; dark: string }> = {
-  racing_thoughts: { light: '#2F5D8A', dark: '#8FB6DE' }, // cool indigo-blue
-  stress_before_moments: { light: '#3E6B5A', dark: '#8CC2AC' }, // verdigris
-  cant_switch_off: { light: '#4B4A7A', dark: '#A9A7DA' }, // night indigo
-  low_energy_mornings: { light: '#9A5510', dark: '#F0B267' }, // saffron
-  feeling_flat: { light: '#8A3B1F', dark: '#E0A36B' }, // sienna
-  hard_to_start: { light: '#9A4A2E', dark: '#E8A488' }, // terracotta
-  scattered_focus: { light: '#5B6B1E', dark: '#BFCB7A' }, // leaf green
-  restless_mind: { light: '#6A3F6E', dark: '#CFA3D3' }, // lac purple
-  waking_up_tired: { light: '#86621A', dark: '#E3C46F' }, // ochre
-  want_deeper_practice: { light: '#7A2E3A', dark: '#E39AA6' }, // madder red
+/**
+ * One accent per user state. `fill` is the vivid decorative pigment (icons, shapes);
+ * `soft` is a tint for chips/cards that carries normal `text` on top.
+ * Placeholders — final values TBD with the illustrator.
+ */
+export type StateAccent = { fill: string; soft: string };
+
+export const stateAccents: Record<StateId, Record<ColorScheme, StateAccent>> = {
+  racing_thoughts: {
+    light: { fill: pigments.lapis, soft: '#E3E7FF' },
+    dark: { fill: pigments.sky, soft: '#2B3478' },
+  },
+  stress_before_moments: {
+    light: { fill: pigments.peacock, soft: '#D8F1F3' },
+    dark: { fill: '#6FD0DD', soft: '#1D4658' },
+  },
+  cant_switch_off: {
+    light: { fill: '#6B5BD6', soft: '#ECE8FF' },
+    dark: { fill: '#B7ABFF', soft: '#342C6E' },
+  },
+  low_energy_mornings: {
+    light: { fill: pigments.marigold, soft: '#FFF0CC' },
+    dark: { fill: pigments.marigold, soft: '#4A3A24' },
+  },
+  feeling_flat: {
+    light: { fill: pigments.vermilion, soft: '#FFE3DA' },
+    dark: { fill: '#FF8E6E', soft: '#4D2A35' },
+  },
+  hard_to_start: {
+    light: { fill: '#FF8A3D', soft: '#FFE8D6' },
+    dark: { fill: '#FFAE72', soft: '#4B3226' },
+  },
+  scattered_focus: {
+    light: { fill: pigments.malachite, soft: '#D9F3E8' },
+    dark: { fill: '#5FD3A8', soft: '#1D4A45' },
+  },
+  restless_mind: {
+    light: { fill: '#D0569B', soft: '#FBE1EE' },
+    dark: { fill: '#F39CCB', soft: '#4A2651' },
+  },
+  waking_up_tired: {
+    light: { fill: '#E3A21A', soft: '#FFF3D1' },
+    dark: { fill: '#FFD166', soft: '#483F25' },
+  },
+  want_deeper_practice: {
+    light: { fill: pigments.rose, soft: '#FFE6EC' },
+    dark: { fill: pigments.rose, soft: '#4A2A45' },
+  },
 };
 
 /** 4-pt spacing scale. */

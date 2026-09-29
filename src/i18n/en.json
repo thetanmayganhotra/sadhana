@@ -10,8 +10,16 @@
   },
   "today": {
     "title": "Today",
+    "greeting": "Good morning",
     "begin": "Begin",
-    "placeholder": "Your practice for today will appear here."
+    "heroLabel": "Today's practice",
+    "heroTitle": "Settle the racing mind",
+    "heroMeta": "{{count}} practices · {{minutes}} min",
+    "streak": "{{count}} day streak",
+    "thisWeek": "This week",
+    "yourFlow": "Your flow",
+    "focusingOn": "Focusing on",
+    "minutes": "{{count}} min"
   },
   "practice": {
     "title": "Practice",
@@ -39,5 +47,11 @@
     "restless_mind": "Restless mind",
     "waking_up_tired": "Waking up tired",
     "want_deeper_practice": "I want a deeper practice"
-  }
+  },
+  "techniques": {
+    "sama_vritti": "Equal breathing",
+    "bhramari": "Humming bee breath",
+    "so_hum": "So Hum meditation"
+  },
+  "weekdays": ["M", "T", "W", "T", "F", "S", "S"]
 }
