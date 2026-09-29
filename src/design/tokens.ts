@@ -1,8 +1,9 @@
 /**
  * Design tokens. PLACEHOLDER PALETTE — the final palette is set with the illustrator.
- * Direction v3: "Vedic minimal". Sandalwood paper, kohl ink, kumkum red, thin temple-gold
- * line-work, and a lot of empty space. Colour is used sparingly; line and type carry the design.
- * Dark mode is a lamp-lit temple at night: warm near-black with gold.
+ * Direction v4: "Vedic minimal, in colour". Calm layout and lots of empty space, but painted with
+ * the full set of Indian pigments — peacock teal, lotus pink, saffron, indigo, tulsi green,
+ * kumkum red — as thin line-work and soft washes, never as big saturated blocks.
+ * Dark mode is an indigo night sky, not brown-black.
  * Contrast of text pairs is enforced by src/design/__tests__/tokens.test.ts.
  */
 
@@ -12,16 +13,29 @@ export type ColorScheme = 'light' | 'dark';
 
 /** Raw pigments for line-work and decoration. Never used for body text. */
 export const pigments = {
-  kumkum: '#8E2C1F',
-  saffron: '#C46A28',
-  turmeric: '#D4A23A',
-  indigo: '#3D4A6E',
-  tulsi: '#56704F',
-  lotus: '#C98A8A',
-  sandal: '#D9C3A0',
-  gold: '#A8823F',
-  templeGold: '#C99A52',
+  kumkum: '#A8322A',
+  saffron: '#E07B2E',
+  turmeric: '#D9A327',
+  indigo: '#34406E',
+  peacock: '#1F7A7A',
+  lotus: '#D26A7E',
+  tulsi: '#4F7D4A',
+  sky: '#6E9BC7',
+  gold: '#B08A45',
 } as const;
+
+/** Colours for the yantra's layers (outer → bindu) and the soft dawn glow behind it. */
+export type YantraColors = {
+  outer: string;
+  petalA: string;
+  petalB: string;
+  middle: string;
+  star: string;
+  inner: string;
+  bindu: string;
+  glowA: string;
+  glowB: string;
+};
 
 export type Palette = {
   background: string;
@@ -31,43 +45,75 @@ export type Palette = {
   border: string; // hairlines
   primary: string; // the one primary button per screen
   onPrimary: string;
-  ornament: string; // gold line-work (yantra, dividers, numerals)
-  accent: string; // bindu, today marker
+  ornament: string; // dividers, small line-work
+  accent: string; // today marker, streak flame
+  eyebrow: string; // coloured section labels
+  done: string; // completed days
+  steps: readonly string[]; // numerals in a flow, cycled
+  yantra: YantraColors;
   danger: string;
   focusRing: string;
 };
 
 export const palettes: Record<ColorScheme, Palette> = {
   light: {
-    background: '#F4EEE3', // sandalwood paper
-    surface: '#FAF6EE',
-    text: '#2A211C', // kohl
-    textMuted: '#6B5F55',
-    border: '#E0D4C0',
+    background: '#F8F3EA', // unbleached cotton paper
+    surface: '#FFFBF4',
+    text: '#26222A',
+    textMuted: '#655F6B',
+    border: '#E7DDCF',
     primary: pigments.kumkum,
-    onPrimary: '#FAF6EE',
+    onPrimary: '#FFFBF4',
     ornament: pigments.gold,
     accent: pigments.kumkum,
+    eyebrow: '#1B6B6B',
+    done: pigments.peacock,
+    steps: [pigments.peacock, pigments.lotus, pigments.saffron, pigments.indigo, pigments.tulsi],
+    yantra: {
+      outer: pigments.indigo,
+      petalA: pigments.lotus,
+      petalB: pigments.saffron,
+      middle: pigments.gold,
+      star: pigments.peacock,
+      inner: pigments.kumkum,
+      bindu: pigments.kumkum,
+      glowA: '#FBDCC4', // dawn peach
+      glowB: '#F7D3DC', // lotus blush
+    },
     danger: '#A3282A',
-    focusRing: pigments.kumkum,
+    focusRing: pigments.peacock,
   },
   dark: {
-    background: '#14110E', // lamp-lit night
-    surface: '#1C1814',
-    text: '#EEE5D5',
-    textMuted: '#A99C8B',
-    border: '#332B23',
-    primary: pigments.templeGold,
-    onPrimary: '#14110E',
-    ornament: pigments.templeGold,
-    accent: '#D8664F',
-    danger: '#E8877C',
-    focusRing: pigments.templeGold,
+    background: '#12141F', // indigo night
+    surface: '#1A1D2B',
+    text: '#EFEAE0',
+    textMuted: '#A9A7B6',
+    border: '#2A2E40',
+    primary: '#E9A95B', // lamp flame
+    onPrimary: '#12141F',
+    ornament: '#C9A45F',
+    accent: '#F08A6C',
+    eyebrow: '#6FC6C0',
+    done: '#6FC6C0',
+    steps: ['#6FC6C0', '#F0A0B2', '#F2A765', '#A7B4EC', '#9CC794'],
+    yantra: {
+      outer: '#A7B4EC',
+      petalA: '#F0A0B2',
+      petalB: '#F2A765',
+      middle: '#C9A45F',
+      star: '#6FC6C0',
+      inner: '#F08A6C',
+      bindu: '#F08A6C',
+      glowA: '#2B2440', // violet dusk
+      glowB: '#1D3038', // peacock night
+    },
+    danger: '#F0877C',
+    focusRing: '#6FC6C0',
   },
 };
 
 /**
- * One accent per user state, in earthy pigments. `fill` is decorative only (dots, line-work);
+ * One accent per user state. `fill` is decorative only (dots, line-work);
  * `soft` is a quiet tint that must carry `text` at 4.5:1.
  * Placeholders — final values TBD with the illustrator.
  */
@@ -75,44 +121,44 @@ export type StateAccent = { fill: string; soft: string };
 
 export const stateAccents: Record<StateId, Record<ColorScheme, StateAccent>> = {
   racing_thoughts: {
-    light: { fill: pigments.indigo, soft: '#E7E4E4' },
-    dark: { fill: '#8E9CC4', soft: '#22232A' },
+    light: { fill: pigments.sky, soft: '#E3ECF6' },
+    dark: { fill: '#8FB4DC', soft: '#1E2A3C' },
   },
   stress_before_moments: {
-    light: { fill: pigments.tulsi, soft: '#E6E7DC' },
-    dark: { fill: '#94AE8C', soft: '#1F2520' },
+    light: { fill: pigments.peacock, soft: '#DDEFEC' },
+    dark: { fill: '#6FC6C0', soft: '#1A3035' },
   },
   cant_switch_off: {
-    light: { fill: '#4B4368', soft: '#E7E3E6' },
-    dark: { fill: '#A79CCB', soft: '#24212C' },
+    light: { fill: pigments.indigo, soft: '#E6E6F2' },
+    dark: { fill: '#A7B4EC', soft: '#23284A' },
   },
   low_energy_mornings: {
-    light: { fill: pigments.saffron, soft: '#F3E3D2' },
-    dark: { fill: '#E09A5E', soft: '#2C2219' },
+    light: { fill: pigments.saffron, soft: '#FCE6D3' },
+    dark: { fill: '#F2A765', soft: '#382818' },
   },
   feeling_flat: {
-    light: { fill: pigments.kumkum, soft: '#F1E0DA' },
-    dark: { fill: '#D8664F', soft: '#2D1E1A' },
+    light: { fill: pigments.kumkum, soft: '#F7E0DC' },
+    dark: { fill: '#F08A6C', soft: '#3A2020' },
   },
   hard_to_start: {
-    light: { fill: pigments.turmeric, soft: '#F3E8CF' },
-    dark: { fill: pigments.turmeric, soft: '#2B2518' },
+    light: { fill: pigments.turmeric, soft: '#FAEDCB' },
+    dark: { fill: '#E9C25B', soft: '#352D16' },
   },
   scattered_focus: {
-    light: { fill: '#3F6B66', soft: '#E2E8E2' },
-    dark: { fill: '#86B3AC', soft: '#1D2624' },
+    light: { fill: pigments.tulsi, soft: '#E2EEDC' },
+    dark: { fill: '#9CC794', soft: '#1E3120' },
   },
   restless_mind: {
-    light: { fill: pigments.lotus, soft: '#F2E4E0' },
-    dark: { fill: '#D9A2A0', soft: '#2B2121' },
+    light: { fill: pigments.lotus, soft: '#F9E1E6' },
+    dark: { fill: '#F0A0B2', soft: '#3A2230' },
   },
   waking_up_tired: {
-    light: { fill: '#9A7A3C', soft: '#EFE6D3' },
-    dark: { fill: '#CDAE6C', soft: '#28231A' },
+    light: { fill: '#8C6BC2', soft: '#ECE4F6' },
+    dark: { fill: '#C3A8EE', soft: '#2E2542' },
   },
   want_deeper_practice: {
-    light: { fill: pigments.gold, soft: '#EFE5D2' },
-    dark: { fill: pigments.templeGold, soft: '#2A2319' },
+    light: { fill: pigments.gold, soft: '#F3E8D2' },
+    dark: { fill: '#C9A45F', soft: '#302919' },
   },
 };
 

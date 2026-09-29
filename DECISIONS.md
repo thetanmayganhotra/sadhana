@@ -84,3 +84,10 @@ Tabs cross-fade. Reduce Motion: no movement, opacity only. All built on Reanimat
 **D18. Yantra and tab icons are placeholders drawn with plain Views** (no SVG dependency yet).
 If the final art needs curves Views can't draw, the choice is react-native-svg vs Rive — to decide
 with the illustrator.
+
+**D19. v4 — more colour, same calm** (founder: "doesn't have to be all brown and golden").
+Layout and motion from v3 stay. Colour comes back as thin line-work and soft washes, never big
+saturated blocks: the yantra's layers are each a pigment (indigo, lotus, saffron, gold, peacock,
+kumkum) over a peach/blush dawn glow that brightens with the breath; flow numerals cycle through
+pigments; completed days are peacock teal; section labels teal. Paper is lighter and less brown
+(`#F8F3EA`). Dark mode moved from brown-black to an indigo night sky (`#12141F`).

@@ -17,7 +17,7 @@ const HAIR = StyleSheet.hairlineWidth * 2;
 const breathEasing = Easing.bezier(...motion.easing.breath);
 
 /**
- * PLACEHOLDER LINE-ART: a simple yantra — outer rings, a sixteen-petal lotus, an eight-pointed
+ * PLACEHOLDER LINE-ART: a simple yantra, each layer in its own pigment over a soft dawn glow — outer rings, a sixteen-petal lotus, an eight-pointed
  * star (two squares), an inner ring and the bindu. Built from plain Views so it needs no SVG
  * library; commissioned art replaces it.
  *
@@ -53,14 +53,17 @@ export function Yantra({ size = 220 }: { size?: number }) {
   const counterDrift = useAnimatedStyle(() => ({
     transform: [{ rotate: `${-drift.value * 180}deg` }],
   }));
+  const wash = useAnimatedStyle(() => ({
+    opacity: 0.75 + breath.value * 0.25,
+  }));
   const glow = useAnimatedStyle(() => ({
     opacity: 0.55 + breath.value * 0.45,
     transform: [{ scale: 0.85 + breath.value * 0.3 }],
   }));
 
-  const line = colors.ornament;
+  const y = colors.yantra;
   const c = size / 2;
-  const ring = (d: number, opacity = 1) => (
+  const ring = (d: number, color: string, opacity = 1) => (
     <View
       style={[
         styles.abs,
@@ -71,7 +74,7 @@ export function Yantra({ size = 220 }: { size?: number }) {
           top: c - d / 2,
           borderRadius: d / 2,
           borderWidth: HAIR,
-          borderColor: line,
+          borderColor: color,
           opacity,
         },
       ]}
@@ -88,8 +91,39 @@ export function Yantra({ size = 220 }: { size?: number }) {
       importantForAccessibility="no-hide-descendants"
       style={[{ width: size, height: size }, breathing]}
     >
-      {ring(size, 0.5)}
-      {ring(size * 0.94)}
+      {/* Dawn glow: two soft overlapping washes behind the figure, brightening with the breath. */}
+      <Animated.View style={[StyleSheet.absoluteFill, wash]}>
+        <View
+          style={[
+            styles.abs,
+            {
+              width: size * 1.05,
+              height: size * 1.05,
+              left: c - size * 0.6,
+              top: c - size * 0.6,
+              borderRadius: size,
+              backgroundColor: y.glowA,
+            },
+          ]}
+        />
+        <View
+          style={[
+            styles.abs,
+            {
+              width: size * 0.95,
+              height: size * 0.95,
+              left: c - size * 0.4,
+              top: c - size * 0.38,
+              borderRadius: size,
+              backgroundColor: y.glowB,
+              opacity: 0.85,
+            },
+          ]}
+        />
+      </Animated.View>
+
+      {ring(size, y.outer, 0.35)}
+      {ring(size * 0.94, y.outer)}
 
       <Animated.View style={[StyleSheet.absoluteFill, drifting]}>
         {Array.from({ length: PETALS }, (_, i) => (
@@ -106,8 +140,8 @@ export function Yantra({ size = 220 }: { size?: number }) {
                 top: c - petal / 2,
                 borderTopLeftRadius: petal,
                 borderBottomRightRadius: petal,
-                borderWidth: HAIR,
-                borderColor: line,
+                borderWidth: HAIR * 1.25,
+                borderColor: i % 2 === 0 ? y.petalA : y.petalB,
                 transform: [
                   { rotate: `${(360 / PETALS) * i}deg` },
                   { translateY: -size * 0.385 },
@@ -119,7 +153,7 @@ export function Yantra({ size = 220 }: { size?: number }) {
         ))}
       </Animated.View>
 
-      {ring(size * 0.6, 0.8)}
+      {ring(size * 0.6, y.middle)}
 
       <Animated.View style={[StyleSheet.absoluteFill, counterDrift]}>
         {[0, 45].map((deg) => (
@@ -133,7 +167,7 @@ export function Yantra({ size = 220 }: { size?: number }) {
                 left: c - sq / 2,
                 top: c - sq / 2,
                 borderWidth: HAIR,
-                borderColor: line,
+                borderColor: y.star,
                 transform: [{ rotate: `${deg}deg` }],
               },
             ]}
@@ -141,7 +175,7 @@ export function Yantra({ size = 220 }: { size?: number }) {
         ))}
       </Animated.View>
 
-      {ring(size * 0.22)}
+      {ring(size * 0.22, y.inner)}
       <Animated.View
         style={[
           styles.abs,
@@ -151,7 +185,7 @@ export function Yantra({ size = 220 }: { size?: number }) {
             left: c - 4,
             top: c - 4,
             borderRadius: 4,
-            backgroundColor: colors.accent,
+            backgroundColor: y.bindu,
           },
           glow,
         ]}

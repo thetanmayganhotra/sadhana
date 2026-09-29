@@ -61,7 +61,7 @@ export default function TodayScreen() {
         </FadeIn>
 
         <FadeIn index={2} style={styles.heroText}>
-          <Text variant="eyebrow" style={{ color: colors.ornament }}>
+          <Text variant="eyebrow" style={{ color: colors.eyebrow }}>
             {t('today.heroLabel')}
           </Text>
           <Text variant="title" style={styles.center} accessibilityRole="header">
@@ -108,7 +108,7 @@ export default function TodayScreen() {
             >
               <Text
                 variant="devanagari"
-                style={[styles.numeral, { color: colors.ornament }]}
+                style={[styles.numeral, { color: colors.steps[i % colors.steps.length] }]}
                 accessibilityLabel={t('today.step', { count: i + 1 })}
               >
                 {toDevanagari(i + 1)}
@@ -140,11 +140,11 @@ export default function TodayScreen() {
                     style={[
                       styles.dayDot,
                       {
-                        backgroundColor: done ? colors.ornament : 'transparent',
+                        backgroundColor: done ? colors.done : 'transparent',
                         borderColor: isToday
                           ? colors.accent
                           : done
-                            ? colors.ornament
+                            ? colors.done
                             : colors.border,
                       },
                     ]}
