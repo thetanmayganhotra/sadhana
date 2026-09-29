@@ -14,24 +14,29 @@
     "begin": "Begin",
     "heroLabel": "Today's practice",
     "heroTitle": "Settle the racing mind",
-    "heroMeta": "{{count}} practices · {{minutes}} min",
-    "streak": "{{count}} day streak",
+    "heroMeta": "{{count}} practices · {{minutes}} minutes",
+    "streak": "{{count}} days",
+    "streakA11y": "{{count}} day streak",
     "thisWeek": "This week",
     "yourFlow": "Your flow",
     "focusingOn": "Focusing on",
-    "minutes": "{{count}} min"
+    "minutes": "{{count}} min",
+    "step": "Step {{count}}"
   },
   "practice": {
     "title": "Practice",
-    "placeholder": "All techniques and flows will appear here."
+    "placeholder": "All techniques and flows will appear here.",
+    "eyebrow": "The practices"
   },
   "learn": {
     "title": "Learn",
-    "placeholder": "Origins, texts, research and lineage will appear here."
+    "placeholder": "Origins, texts, research and lineage will appear here.",
+    "eyebrow": "The tradition"
   },
   "journey": {
     "title": "Journey",
-    "placeholder": "Your streak and practice history will appear here."
+    "placeholder": "Your streak and practice history will appear here.",
+    "eyebrow": "Your path"
   },
   "notice": {
     "wellness": "This app supports general wellbeing and is not a substitute for professional care."

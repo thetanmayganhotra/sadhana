@@ -2,53 +2,39 @@ import { StyleSheet, View, type ColorValue } from 'react-native';
 
 export type TabIconName = 'today' | 'practice' | 'learn' | 'journey';
 
-/** Placeholder geometric tab icons (no icon library yet). */
-export function TabIcon({
-  name,
-  color,
-  focused,
-}: {
-  name: TabIconName;
-  color: ColorValue;
-  focused: boolean;
-}) {
-  const fill = focused ? color : 'transparent';
+const LINE = 1.25;
+
+/** Thin line-work tab icons (placeholder until an icon set is drawn). */
+export function TabIcon({ name, color }: { name: TabIconName; color: ColorValue }) {
   switch (name) {
-    case 'today': // sun
+    case 'today': // sun disc with bindu
       return (
-        <View
-          style={[styles.box, { borderColor: color, backgroundColor: fill, borderRadius: 12 }]}
-        />
-      );
-    case 'practice': // arch
-      return (
-        <View
-          style={[
-            styles.box,
-            {
-              borderColor: color,
-              backgroundColor: fill,
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
-              borderRadius: 3,
-            },
-          ]}
-        />
-      );
-    case 'learn': // manuscript page
-      return (
-        <View style={[styles.box, styles.page, { borderColor: color, backgroundColor: fill }]}>
-          <View style={[styles.line, { backgroundColor: focused ? 'transparent' : color }]} />
+        <View style={[styles.circle, { borderColor: color }]}>
+          <View style={[styles.bindu, { backgroundColor: color }]} />
         </View>
       );
-    case 'journey': // rising steps
+    case 'practice': // lotus: three petals
       return (
-        <View style={styles.steps}>
-          {[8, 14, 20].map((h) => (
+        <View style={styles.lotus}>
+          {[-35, 0, 35].map((deg) => (
             <View
-              key={h}
-              style={[styles.step, { height: h, borderColor: color, backgroundColor: fill }]}
+              key={deg}
+              style={[styles.petal, { borderColor: color, transform: [{ rotate: `${deg}deg` }] }]}
             />
+          ))}
+        </View>
+      );
+    case 'learn': // palm-leaf manuscript
+      return (
+        <View style={[styles.leaf, { borderColor: color }]}>
+          <View style={[styles.leafHole, { borderColor: color }]} />
+        </View>
+      );
+    case 'journey': // path of three steps
+      return (
+        <View style={styles.path}>
+          {[0, 1, 2].map((i) => (
+            <View key={i} style={[styles.step, { borderColor: color, opacity: 0.45 + i * 0.27 }]} />
           ))}
         </View>
       );
@@ -56,9 +42,34 @@ export function TabIcon({
 }
 
 const styles = StyleSheet.create({
-  box: { width: 22, height: 22, borderWidth: 2 },
-  page: { width: 18, borderRadius: 4, justifyContent: 'center', alignItems: 'center' },
-  line: { width: 8, height: 2, borderRadius: 1 },
-  steps: { flexDirection: 'row', alignItems: 'flex-end', gap: 2, height: 22 },
-  step: { width: 6, borderWidth: 2, borderRadius: 2 },
+  circle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: LINE,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bindu: { width: 4, height: 4, borderRadius: 2 },
+  lotus: { width: 24, height: 20, alignItems: 'center', justifyContent: 'flex-end' },
+  petal: {
+    position: 'absolute',
+    bottom: 1,
+    width: 8,
+    height: 17,
+    borderRadius: 8,
+    borderWidth: LINE,
+    transformOrigin: 'bottom',
+  },
+  leaf: {
+    width: 24,
+    height: 12,
+    borderRadius: 6,
+    borderWidth: LINE,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leafHole: { width: 3, height: 3, borderRadius: 1.5, borderWidth: 1 },
+  path: { flexDirection: 'row', alignItems: 'center', gap: 3, height: 20 },
+  step: { width: 5, height: 5, borderRadius: 2.5, borderWidth: LINE },
 });

@@ -6,7 +6,7 @@ import { Text } from '@/design/components/Text';
 export default function JourneyScreen() {
   const { t } = useTranslation();
   return (
-    <Screen title={t('journey.title')}>
+    <Screen eyebrow={t('journey.eyebrow')} title={t('journey.title')}>
       <Text muted>{t('journey.placeholder')}</Text>
     </Screen>
   );

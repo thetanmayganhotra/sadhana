@@ -6,7 +6,7 @@ import { Text } from '@/design/components/Text';
 export default function LearnScreen() {
   const { t } = useTranslation();
   return (
-    <Screen title={t('learn.title')}>
+    <Screen eyebrow={t('learn.eyebrow')} title={t('learn.title')}>
       <Text muted>{t('learn.placeholder')}</Text>
     </Screen>
   );

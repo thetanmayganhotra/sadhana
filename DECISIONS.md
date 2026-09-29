@@ -62,3 +62,25 @@ pairs: vivid `fill` for decoration only, `soft` tints must carry body text at 4.
 shapes, placeholders until commissioned art and an icon set are chosen.
 
 **D14. `react-native-web` added for browser previews only** (no simulator on the dev machine).
+
+## 2026-09-29 — Visual direction v3: "Vedic minimal"
+
+**D15. v2 was rejected as too close to Headspace** (saturated blocks, cartoon sun, yellow CTA).
+v3 supersedes D12/D13's look: sandalwood paper `#F4EEE3`, kohl ink, a single kumkum-red primary,
+thin temple-gold line-work, generous empty space. Dark mode is a lamp-lit night (warm near-black
++ gold). Colour is sparse; line and type carry the identity.
+
+**D16. Fonts (approved by founder):** Cormorant Garamond (headings + all Sanskrit/IAST — verified it
+covers every IAST diacritic), Jost (body/UI — verified it does NOT cover ṛ ṣ ṇ ṭ ḍ ṃ ḥ, so IAST must
+always use the `sanskrit` text variant), Tiro Devanagari Sanskrit (Devanagari). All via
+`@expo-google-fonts/*` (OFL). Loaded in `app/_layout.tsx`; the app holds on a blank page of the
+background colour until they load. No `fontWeight` on custom fonts — each weight is its own family.
+
+**D17. Motion language:** everything breath-paced and eased (sine in-out / soft ease-out), no
+springs. Screens enter with a staggered 900 ms fade + 10 pt drift (`FadeIn`). The Today yantra
+breathes (5 s in, 5 s out), its lotus drifts one turn per 2 min, the bindu glows with the breath.
+Tabs cross-fade. Reduce Motion: no movement, opacity only. All built on Reanimated (already a dep).
+
+**D18. Yantra and tab icons are placeholders drawn with plain Views** (no SVG dependency yet).
+If the final art needs curves Views can't draw, the choice is react-native-svg vs Rive — to decide
+with the illustrator.

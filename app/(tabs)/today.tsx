@@ -2,81 +2,132 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
-import { ArchScene } from '@/design/components/ArchScene';
-import { Text } from '@/design/components/Text';
-import { useTheme } from '@/design/theme';
-import { minTouchTarget, pigments, radii, spacing, stateAccents } from '@/design/tokens';
 import type { StateId } from '@/content/types';
+import { FadeIn } from '@/design/components/FadeIn';
+import { Ornament } from '@/design/components/Ornament';
+import { Text } from '@/design/components/Text';
+import { Yantra } from '@/design/components/Yantra';
+import { useTheme } from '@/design/theme';
+import { minTouchTarget, radii, spacing, stateAccents } from '@/design/tokens';
 
 // DESIGN PREVIEW: static data until personalize() and the practice log land (Phases 3 and 5).
 const PREVIEW = {
   states: ['racing_thoughts', 'cant_switch_off'] as StateId[],
   flow: [
-    { id: 'sama_vritti', sanskrit: 'Sama Vṛtti', minutes: 3, state: 'racing_thoughts' as StateId },
-    { id: 'bhramari', sanskrit: 'Bhrāmarī', minutes: 4, state: 'cant_switch_off' as StateId },
-    { id: 'so_hum', sanskrit: "So'ham", minutes: 3, state: 'want_deeper_practice' as StateId },
+    { id: 'sama_vritti', iast: 'Sama Vṛtti', minutes: 3 },
+    { id: 'bhramari', iast: 'Bhrāmarī', minutes: 4 },
+    { id: 'so_hum', iast: "So'ham", minutes: 3 },
   ] as const,
   streak: 3,
   weekDone: [true, true, true, false, false, false, false],
   todayIndex: 3,
 };
 
+/** Devanagari numerals, used ornamentally for step numbers (screen readers get "Step n"). */
+const DEVANAGARI_DIGITS = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+const toDevanagari = (n: number) =>
+  String(n)
+    .split('')
+    .map((d) => DEVANAGARI_DIGITS[Number(d)])
+    .join('');
+
 export default function TodayScreen() {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
   const totalMinutes = PREVIEW.flow.reduce((sum, f) => sum + f.minutes, 0);
-  const doneColor = scheme === 'dark' ? pigments.sky : colors.hero;
   const weekdays = t('weekdays', { returnObjects: true }) as string[];
 
   return (
     <SafeAreaView edges={['top']} style={[styles.root, { backgroundColor: colors.background }]}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <View>
-            <Text variant="label" muted>
-              {t('today.greeting')}
-            </Text>
-            <Text variant="title" accessibilityRole="header">
-              {t('today.title')}
+        <FadeIn style={styles.header}>
+          <Text variant="eyebrow" muted>
+            {t('today.greeting')}
+          </Text>
+          <View
+            style={styles.streak}
+            accessible
+            accessibilityLabel={t('today.streakA11y', { count: PREVIEW.streak })}
+          >
+            <View style={[styles.flame, { backgroundColor: colors.accent }]} />
+            <Text variant="caption" muted>
+              {t('today.streak', { count: PREVIEW.streak })}
             </Text>
           </View>
-          <View style={[styles.streakPill, { backgroundColor: colors.surface }]}>
-            <View style={styles.streakDot} />
-            <Text variant="label">{t('today.streak', { count: PREVIEW.streak })}</Text>
-          </View>
-        </View>
+        </FadeIn>
 
-        <View style={[styles.hero, { backgroundColor: colors.hero }]}>
-          <View style={styles.heroTop}>
-            <View style={styles.heroText}>
-              <Text variant="caption" style={[styles.eyebrow, { color: colors.onHeroMuted }]}>
-                {t('today.heroLabel').toUpperCase()}
-              </Text>
-              <Text variant="heading" style={{ color: colors.onHero }}>
-                {t('today.heroTitle')}
-              </Text>
-              <Text variant="label" style={{ color: colors.onHeroMuted }}>
-                {t('today.heroMeta', { count: PREVIEW.flow.length, minutes: totalMinutes })}
-              </Text>
-            </View>
-            <ArchScene width={104} />
-          </View>
+        <FadeIn index={1} style={styles.hero}>
+          <Yantra size={232} />
+        </FadeIn>
+
+        <FadeIn index={2} style={styles.heroText}>
+          <Text variant="eyebrow" style={{ color: colors.ornament }}>
+            {t('today.heroLabel')}
+          </Text>
+          <Text variant="title" style={styles.center} accessibilityRole="header">
+            {t('today.heroTitle')}
+          </Text>
+          <Text variant="body" muted>
+            {t('today.heroMeta', { count: PREVIEW.flow.length, minutes: totalMinutes })}
+          </Text>
+        </FadeIn>
+
+        <FadeIn index={3} style={styles.beginWrap}>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t('today.begin')}
             style={({ pressed }) => [
               styles.begin,
-              { backgroundColor: colors.primary, transform: [{ scale: pressed ? 0.98 : 1 }] },
+              { backgroundColor: colors.primary, opacity: pressed ? 0.82 : 1 },
             ]}
           >
-            <Text variant="subheading" style={{ color: colors.onPrimary, fontWeight: '700' }}>
+            <Text variant="button" style={{ color: colors.onPrimary }}>
               {t('today.begin')}
             </Text>
           </Pressable>
-        </View>
+        </FadeIn>
 
-        <View style={[styles.card, { backgroundColor: colors.surface }]}>
-          <Text variant="label" muted>
+        <FadeIn index={4}>
+          <Ornament />
+        </FadeIn>
+
+        <FadeIn index={5} style={styles.section}>
+          <Text variant="eyebrow" muted>
+            {t('today.yourFlow')}
+          </Text>
+          {PREVIEW.flow.map((item, i) => (
+            <View
+              key={item.id}
+              style={[
+                styles.flowRow,
+                i > 0 && {
+                  borderTopWidth: StyleSheet.hairlineWidth * 2,
+                  borderTopColor: colors.border,
+                },
+              ]}
+            >
+              <Text
+                variant="devanagari"
+                style={[styles.numeral, { color: colors.ornament }]}
+                accessibilityLabel={t('today.step', { count: i + 1 })}
+              >
+                {toDevanagari(i + 1)}
+              </Text>
+              <View style={styles.flowText}>
+                <Text variant="subheading">{t(`techniques.${item.id}`)}</Text>
+                <Text variant="sanskrit" muted>
+                  {item.iast}
+                </Text>
+              </View>
+              <Text variant="caption" muted>
+                {t('today.minutes', { count: item.minutes })}
+              </Text>
+            </View>
+          ))}
+        </FadeIn>
+
+        <FadeIn index={6} style={styles.section}>
+          <Text variant="eyebrow" muted>
             {t('today.thisWeek')}
           </Text>
           <View style={styles.week}>
@@ -89,13 +140,12 @@ export default function TodayScreen() {
                     style={[
                       styles.dayDot,
                       {
-                        backgroundColor: done ? doneColor : 'transparent',
+                        backgroundColor: done ? colors.ornament : 'transparent',
                         borderColor: isToday
-                          ? pigments.marigold
+                          ? colors.accent
                           : done
-                            ? colors.hero
+                            ? colors.ornament
                             : colors.border,
-                        borderWidth: isToday ? 3 : 2,
                       },
                     ]}
                   />
@@ -106,50 +156,24 @@ export default function TodayScreen() {
               );
             })}
           </View>
-        </View>
+        </FadeIn>
 
-        <Text variant="subheading">{t('today.yourFlow')}</Text>
-        <View style={styles.flow}>
-          {PREVIEW.flow.map((item, i) => {
-            const accent = stateAccents[item.state][scheme];
-            return (
-              <View key={item.id} style={[styles.flowRow, { backgroundColor: colors.surface }]}>
-                <View
-                  style={[
-                    styles.flowBadge,
-                    { backgroundColor: accent.soft, borderColor: accent.fill },
-                  ]}
-                >
-                  <Text variant="label" style={styles.flowNum}>
-                    {i + 1}
-                  </Text>
+        <FadeIn index={7} style={styles.section}>
+          <Text variant="eyebrow" muted>
+            {t('today.focusingOn')}
+          </Text>
+          <View style={styles.chips}>
+            {PREVIEW.states.map((s) => {
+              const accent = stateAccents[s][scheme];
+              return (
+                <View key={s} style={[styles.chip, { backgroundColor: accent.soft }]}>
+                  <View style={[styles.chipDot, { backgroundColor: accent.fill }]} />
+                  <Text variant="caption">{t(`states.${s}`)}</Text>
                 </View>
-                <View style={styles.flowText}>
-                  <Text variant="label">{t(`techniques.${item.id}`)}</Text>
-                  <Text variant="caption" muted>
-                    {item.sanskrit}
-                  </Text>
-                </View>
-                <Text variant="caption" muted>
-                  {t('today.minutes', { count: item.minutes })}
-                </Text>
-              </View>
-            );
-          })}
-        </View>
-
-        <Text variant="subheading">{t('today.focusingOn')}</Text>
-        <View style={styles.chips}>
-          {PREVIEW.states.map((s) => {
-            const accent = stateAccents[s][scheme];
-            return (
-              <View key={s} style={[styles.chip, { backgroundColor: accent.soft }]}>
-                <View style={[styles.chipDot, { backgroundColor: accent.fill }]} />
-                <Text variant="label">{t(`states.${s}`)}</Text>
-              </View>
-            );
-          })}
-        </View>
+              );
+            })}
+          </View>
+        </FadeIn>
       </ScrollView>
     </SafeAreaView>
   );
@@ -157,49 +181,44 @@ export default function TodayScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  content: { padding: spacing.xl, gap: spacing.lg, paddingBottom: spacing.xxxl },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  streakPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: radii.pill,
+  content: {
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.huge,
+    gap: spacing.xxl,
   },
-  streakDot: { width: 12, height: 12, borderRadius: 6, backgroundColor: pigments.vermilion },
-  hero: { borderRadius: radii.xl, padding: spacing.xl, gap: spacing.xl, overflow: 'hidden' },
-  heroTop: { flexDirection: 'row', alignItems: 'flex-end', gap: spacing.lg },
-  heroText: { flex: 1, gap: spacing.sm },
-  eyebrow: { letterSpacing: 1.2, fontWeight: '700' },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  streak: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  flame: {
+    width: 6,
+    height: 9,
+    borderRadius: 4,
+    borderTopLeftRadius: 1,
+    transform: [{ rotate: '45deg' }],
+  },
+  hero: { alignItems: 'center', paddingTop: spacing.lg },
+  heroText: { alignItems: 'center', gap: spacing.sm, marginTop: -spacing.md },
+  center: { textAlign: 'center' },
+  beginWrap: { alignItems: 'center' },
   begin: {
-    minHeight: minTouchTarget + 12,
+    minHeight: minTouchTarget + 8,
+    paddingHorizontal: spacing.huge,
     borderRadius: radii.pill,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  card: { borderRadius: radii.lg, padding: spacing.lg, gap: spacing.md },
-  week: { flexDirection: 'row', justifyContent: 'space-between' },
-  day: { alignItems: 'center', gap: spacing.xs },
-  dayDot: { width: 28, height: 28, borderRadius: 14 },
-  flow: { gap: spacing.sm },
+  section: { gap: spacing.md },
   flowRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
-    padding: spacing.md,
-    borderRadius: radii.lg,
+    gap: spacing.lg,
+    paddingVertical: spacing.md,
   },
-  flowBadge: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  flowNum: { fontWeight: '700' },
+  numeral: { width: 24, textAlign: 'center' },
   flowText: { flex: 1, gap: 2 },
+  week: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: spacing.xs },
+  day: { alignItems: 'center', gap: spacing.sm },
+  dayDot: { width: 10, height: 10, borderRadius: 5, borderWidth: 1.25 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   chip: {
     flexDirection: 'row',
@@ -209,5 +228,5 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     borderRadius: radii.pill,
   },
-  chipDot: { width: 10, height: 10, borderRadius: 5 },
+  chipDot: { width: 6, height: 6, borderRadius: 3 },
 });

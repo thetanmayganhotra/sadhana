@@ -1,32 +1,34 @@
 import { Tabs } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { TabIcon, type TabIconName } from '@/design/components/TabIcon';
 import { useTheme } from '@/design/theme';
-import { pigments } from '@/design/tokens';
+import { typography } from '@/design/tokens';
 
 const TABS: TabIconName[] = ['today', 'practice', 'learn', 'journey'];
 
 export default function TabsLayout() {
   const { t } = useTranslation();
-  const { colors, scheme } = useTheme();
+  const { colors } = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: scheme === 'dark' ? pigments.marigold : pigments.lapis,
+        animation: 'fade',
+        sceneStyle: { backgroundColor: colors.background },
+        tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.textMuted,
         tabBarStyle: {
-          backgroundColor: colors.surface,
-          borderTopWidth: 0,
+          backgroundColor: colors.background,
+          borderTopWidth: StyleSheet.hairlineWidth * 2,
+          borderTopColor: colors.border,
+          elevation: 0,
+          shadowOpacity: 0,
           height: 84,
-          paddingTop: 8,
-          shadowColor: '#000',
-          shadowOpacity: 0.06,
-          shadowRadius: 12,
-          shadowOffset: { width: 0, height: -2 },
+          paddingTop: 10,
         },
-        tabBarLabelStyle: { fontSize: 12, fontWeight: '600' },
+        tabBarLabelStyle: { ...typography.eyebrow, fontSize: 10, letterSpacing: 1.6, marginTop: 4 },
       }}
     >
       {TABS.map((name) => (
@@ -35,9 +37,7 @@ export default function TabsLayout() {
           name={name}
           options={{
             title: t(`tabs.${name}`),
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon name={name} color={color} focused={focused} />
-            ),
+            tabBarIcon: ({ color }) => <TabIcon name={name} color={color} />,
           }}
         />
       ))}

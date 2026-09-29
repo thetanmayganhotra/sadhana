@@ -6,7 +6,7 @@ import { Text } from '@/design/components/Text';
 export default function PracticeScreen() {
   const { t } = useTranslation();
   return (
-    <Screen title={t('practice.title')}>
+    <Screen eyebrow={t('practice.eyebrow')} title={t('practice.title')}>
       <Text muted>{t('practice.placeholder')}</Text>
     </Screen>
   );

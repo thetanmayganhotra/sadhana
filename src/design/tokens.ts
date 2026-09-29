@@ -1,8 +1,8 @@
 /**
  * Design tokens. PLACEHOLDER PALETTE — the final palette is set with the illustrator.
- * Direction: the bright mineral pigments of Rajput/Pahari miniature painting — lapis, marigold,
- * vermilion, rose, malachite — on warm ivory paper. Dark mode is a miniature night scene
- * (deep indigo sky), not black.
+ * Direction v3: "Vedic minimal". Sandalwood paper, kohl ink, kumkum red, thin temple-gold
+ * line-work, and a lot of empty space. Colour is used sparingly; line and type carry the design.
+ * Dark mode is a lamp-lit temple at night: warm near-black with gold.
  * Contrast of text pairs is enforced by src/design/__tests__/tokens.test.ts.
  */
 
@@ -10,118 +10,109 @@ import type { StateId } from '@/content/types';
 
 export type ColorScheme = 'light' | 'dark';
 
-/** Raw pigments for illustration shapes and decoration. Never used for body text. */
+/** Raw pigments for line-work and decoration. Never used for body text. */
 export const pigments = {
-  lapis: '#3446C8',
-  lapisDeep: '#232F8F',
-  marigold: '#FFB627',
-  vermilion: '#F2603C',
-  rose: '#F7A1B5',
-  malachite: '#22A57B',
-  peacock: '#1E8C9E',
-  sky: '#A9C7FF',
-  cream: '#FFE9C7',
-  ivory: '#FFF7EC',
-  night: '#12163A',
-  ink: '#1E2340',
+  kumkum: '#8E2C1F',
+  saffron: '#C46A28',
+  turmeric: '#D4A23A',
+  indigo: '#3D4A6E',
+  tulsi: '#56704F',
+  lotus: '#C98A8A',
+  sandal: '#D9C3A0',
+  gold: '#A8823F',
+  templeGold: '#C99A52',
 } as const;
 
 export type Palette = {
   background: string;
   surface: string;
-  surfaceRaised: string;
   text: string;
   textMuted: string;
-  border: string;
+  border: string; // hairlines
   primary: string; // the one primary button per screen
   onPrimary: string;
-  hero: string; // large feature cards (e.g. today's practice)
-  onHero: string;
-  onHeroMuted: string;
+  ornament: string; // gold line-work (yantra, dividers, numerals)
+  accent: string; // bindu, today marker
   danger: string;
   focusRing: string;
 };
 
 export const palettes: Record<ColorScheme, Palette> = {
   light: {
-    background: pigments.ivory,
-    surface: '#FFFFFF',
-    surfaceRaised: '#FFFDF8',
-    text: pigments.ink,
-    textMuted: '#585D7C',
-    border: '#F0E4D2',
-    primary: pigments.marigold,
-    onPrimary: pigments.ink,
-    hero: pigments.lapis,
-    onHero: '#FFFFFF',
-    onHeroMuted: '#DDE2FF',
-    danger: '#C62F3B',
-    focusRing: pigments.lapis,
+    background: '#F4EEE3', // sandalwood paper
+    surface: '#FAF6EE',
+    text: '#2A211C', // kohl
+    textMuted: '#6B5F55',
+    border: '#E0D4C0',
+    primary: pigments.kumkum,
+    onPrimary: '#FAF6EE',
+    ornament: pigments.gold,
+    accent: pigments.kumkum,
+    danger: '#A3282A',
+    focusRing: pigments.kumkum,
   },
   dark: {
-    background: pigments.night,
-    surface: '#1C2150',
-    surfaceRaised: '#252B61',
-    text: '#FFF4E4',
-    textMuted: '#B9BCE0',
-    border: '#2E3570',
-    primary: pigments.marigold,
-    onPrimary: pigments.ink,
-    hero: '#2A3290',
-    onHero: '#FFFFFF',
-    onHeroMuted: '#D2D7FF',
-    danger: '#FF8A80',
-    focusRing: pigments.marigold,
+    background: '#14110E', // lamp-lit night
+    surface: '#1C1814',
+    text: '#EEE5D5',
+    textMuted: '#A99C8B',
+    border: '#332B23',
+    primary: pigments.templeGold,
+    onPrimary: '#14110E',
+    ornament: pigments.templeGold,
+    accent: '#D8664F',
+    danger: '#E8877C',
+    focusRing: pigments.templeGold,
   },
 };
 
 /**
- * One accent per user state. `fill` is the vivid decorative pigment (icons, shapes);
- * `soft` is a tint for chips/cards that carries normal `text` on top.
+ * One accent per user state, in earthy pigments. `fill` is decorative only (dots, line-work);
+ * `soft` is a quiet tint that must carry `text` at 4.5:1.
  * Placeholders — final values TBD with the illustrator.
  */
 export type StateAccent = { fill: string; soft: string };
 
 export const stateAccents: Record<StateId, Record<ColorScheme, StateAccent>> = {
   racing_thoughts: {
-    light: { fill: pigments.lapis, soft: '#E3E7FF' },
-    dark: { fill: pigments.sky, soft: '#2B3478' },
+    light: { fill: pigments.indigo, soft: '#E7E4E4' },
+    dark: { fill: '#8E9CC4', soft: '#22232A' },
   },
   stress_before_moments: {
-    light: { fill: pigments.peacock, soft: '#D8F1F3' },
-    dark: { fill: '#6FD0DD', soft: '#1D4658' },
+    light: { fill: pigments.tulsi, soft: '#E6E7DC' },
+    dark: { fill: '#94AE8C', soft: '#1F2520' },
   },
   cant_switch_off: {
-    light: { fill: '#6B5BD6', soft: '#ECE8FF' },
-    dark: { fill: '#B7ABFF', soft: '#342C6E' },
+    light: { fill: '#4B4368', soft: '#E7E3E6' },
+    dark: { fill: '#A79CCB', soft: '#24212C' },
   },
   low_energy_mornings: {
-    light: { fill: pigments.marigold, soft: '#FFF0CC' },
-    dark: { fill: pigments.marigold, soft: '#4A3A24' },
+    light: { fill: pigments.saffron, soft: '#F3E3D2' },
+    dark: { fill: '#E09A5E', soft: '#2C2219' },
   },
   feeling_flat: {
-    light: { fill: pigments.vermilion, soft: '#FFE3DA' },
-    dark: { fill: '#FF8E6E', soft: '#4D2A35' },
+    light: { fill: pigments.kumkum, soft: '#F1E0DA' },
+    dark: { fill: '#D8664F', soft: '#2D1E1A' },
   },
   hard_to_start: {
-    light: { fill: '#FF8A3D', soft: '#FFE8D6' },
-    dark: { fill: '#FFAE72', soft: '#4B3226' },
+    light: { fill: pigments.turmeric, soft: '#F3E8CF' },
+    dark: { fill: pigments.turmeric, soft: '#2B2518' },
   },
   scattered_focus: {
-    light: { fill: pigments.malachite, soft: '#D9F3E8' },
-    dark: { fill: '#5FD3A8', soft: '#1D4A45' },
+    light: { fill: '#3F6B66', soft: '#E2E8E2' },
+    dark: { fill: '#86B3AC', soft: '#1D2624' },
   },
   restless_mind: {
-    light: { fill: '#D0569B', soft: '#FBE1EE' },
-    dark: { fill: '#F39CCB', soft: '#4A2651' },
+    light: { fill: pigments.lotus, soft: '#F2E4E0' },
+    dark: { fill: '#D9A2A0', soft: '#2B2121' },
   },
   waking_up_tired: {
-    light: { fill: '#E3A21A', soft: '#FFF3D1' },
-    dark: { fill: '#FFD166', soft: '#483F25' },
+    light: { fill: '#9A7A3C', soft: '#EFE6D3' },
+    dark: { fill: '#CDAE6C', soft: '#28231A' },
   },
   want_deeper_practice: {
-    light: { fill: pigments.rose, soft: '#FFE6EC' },
-    dark: { fill: pigments.rose, soft: '#4A2A45' },
+    light: { fill: pigments.gold, soft: '#EFE5D2' },
+    dark: { fill: pigments.templeGold, soft: '#2A2319' },
   },
 };
 
@@ -146,35 +137,63 @@ export const radii = {
   pill: 999,
 } as const;
 
-/**
- * Font families. PLACEHOLDER: system fonts until the heading serif (needs IAST diacritics +
- * Devanagari) and body sans are confirmed. Swap these names once fonts are loaded via expo-font.
- */
-export const fontFamilies = {
-  heading: undefined as string | undefined, // TODO(fonts): serif with IAST + Devanagari support
-  body: undefined as string | undefined, // TODO(fonts): clean sans
-};
-
-/** Base sizes; scaled by the OS Dynamic Type setting (allowFontScaling stays on). */
-export const typography = {
-  display: { fontSize: 34, lineHeight: 42, fontWeight: '600' },
-  title: { fontSize: 28, lineHeight: 36, fontWeight: '600' },
-  heading: { fontSize: 22, lineHeight: 30, fontWeight: '600' },
-  subheading: { fontSize: 18, lineHeight: 26, fontWeight: '500' },
-  body: { fontSize: 17, lineHeight: 26, fontWeight: '400' },
-  label: { fontSize: 15, lineHeight: 20, fontWeight: '500' },
-  caption: { fontSize: 13, lineHeight: 18, fontWeight: '400' },
+/** Font family names as registered by the @expo-google-fonts packages (loaded in app/_layout.tsx). */
+export const fonts = {
+  serifLight: 'CormorantGaramond_300Light',
+  serif: 'CormorantGaramond_400Regular',
+  serifMedium: 'CormorantGaramond_500Medium',
+  serifItalic: 'CormorantGaramond_400Regular_Italic',
+  sansLight: 'Jost_300Light',
+  sans: 'Jost_400Regular',
+  sansMedium: 'Jost_500Medium',
+  devanagari: 'TiroDevanagariSanskrit_400Regular',
 } as const;
 
-/** Motion: soft fades and gentle scale, never bouncy. */
+/**
+ * Type scale. Headings: Cormorant Garamond (covers all IAST diacritics).
+ * Body: Jost (does NOT cover IAST — Sanskrit names must use the `sanskrit` variant).
+ * No fontWeight here: with custom fonts each weight is its own family (Android requirement).
+ * Sizes scale with the OS Dynamic Type setting (allowFontScaling stays on).
+ */
+export const typography = {
+  display: { fontFamily: fonts.serifLight, fontSize: 40, lineHeight: 46 },
+  title: { fontFamily: fonts.serif, fontSize: 32, lineHeight: 38 },
+  heading: { fontFamily: fonts.serifMedium, fontSize: 24, lineHeight: 30 },
+  subheading: { fontFamily: fonts.serifMedium, fontSize: 20, lineHeight: 26 },
+  body: { fontFamily: fonts.sansLight, fontSize: 16, lineHeight: 25 },
+  label: { fontFamily: fonts.sans, fontSize: 15, lineHeight: 20 },
+  caption: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 },
+  eyebrow: {
+    fontFamily: fonts.sansMedium,
+    fontSize: 11,
+    lineHeight: 16,
+    letterSpacing: 2.2,
+    textTransform: 'uppercase',
+  },
+  button: {
+    fontFamily: fonts.sansMedium,
+    fontSize: 14,
+    lineHeight: 20,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
+  sanskrit: { fontFamily: fonts.serifItalic, fontSize: 16, lineHeight: 22 },
+  devanagari: { fontFamily: fonts.devanagari, fontSize: 24, lineHeight: 34 },
+} as const;
+
+/**
+ * Motion: slow, breath-paced, never bouncy. Everything eases in and out; nothing snaps.
+ * Reduce Motion replaces movement with plain opacity (see FadeIn / Yantra).
+ */
 export const motion = {
-  duration: { fast: 150, base: 250, slow: 400 },
-  /** cubic-bezier control points, usable with Reanimated's Easing.bezier(...). */
+  duration: { fast: 150, base: 250, slow: 400, enter: 900, breath: 5000, drift: 120000 },
+  stagger: 110,
+  /** cubic-bezier control points, for Reanimated's Easing.bezier(...). */
   easing: {
     standard: [0.4, 0.0, 0.2, 1] as const,
-    enter: [0.0, 0.0, 0.2, 1] as const,
+    enter: [0.22, 1, 0.36, 1] as const, // soft ease-out
     exit: [0.4, 0.0, 1, 1] as const,
-    breath: [0.45, 0.05, 0.55, 0.95] as const, // sine-like, for breathing visuals
+    breath: [0.37, 0, 0.63, 1] as const, // sine in-out
   },
 } as const;
 

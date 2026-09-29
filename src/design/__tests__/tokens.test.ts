@@ -20,8 +20,6 @@ describe.each(['light', 'dark'] as const)('%s palette', (scheme) => {
     ['textMuted', p.textMuted, p.background],
     ['textMuted/surface', p.textMuted, p.surface],
     ['onPrimary', p.onPrimary, p.primary],
-    ['onHero', p.onHero, p.hero],
-    ['onHeroMuted', p.onHeroMuted, p.hero],
     ['danger', p.danger, p.background],
   ];
   it.each(pairs)('%s meets 4.5:1', (_name, fg, bg) => {
