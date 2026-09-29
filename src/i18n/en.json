@@ -1,0 +1,43 @@
+{
+  "app": {
+    "name": "Sadhana"
+  },
+  "tabs": {
+    "today": "Today",
+    "practice": "Practice",
+    "learn": "Learn",
+    "journey": "Journey"
+  },
+  "today": {
+    "title": "Today",
+    "begin": "Begin",
+    "placeholder": "Your practice for today will appear here."
+  },
+  "practice": {
+    "title": "Practice",
+    "placeholder": "All techniques and flows will appear here."
+  },
+  "learn": {
+    "title": "Learn",
+    "placeholder": "Origins, texts, research and lineage will appear here."
+  },
+  "journey": {
+    "title": "Journey",
+    "placeholder": "Your streak and practice history will appear here."
+  },
+  "notice": {
+    "wellness": "This app supports general wellbeing and is not a substitute for professional care."
+  },
+  "states": {
+    "racing_thoughts": "Racing thoughts",
+    "stress_before_moments": "Stress before big moments",
+    "cant_switch_off": "Can't switch off at night",
+    "low_energy_mornings": "Low energy mornings",
+    "feeling_flat": "Feeling flat or heavy",
+    "hard_to_start": "Hard to get started",
+    "scattered_focus": "Scattered focus",
+    "restless_mind": "Restless mind",
+    "waking_up_tired": "Waking up tired",
+    "want_deeper_practice": "I want a deeper practice"
+  }
+}

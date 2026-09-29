@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Sadhana",
+    "slug": "sadhana",
+    "scheme": "sadhana",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tanmayganhotra.sadhana"
+    },
+    "android": {
+      "package": "com.tanmayganhotra.sadhana",
+      "adaptiveIcon": {
+        "backgroundColor": "#F6F1E7",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router", "expo-localization", "expo-font"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
