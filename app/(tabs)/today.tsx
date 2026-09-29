@@ -141,11 +141,7 @@ export default function TodayScreen() {
                       styles.dayDot,
                       {
                         backgroundColor: done ? colors.done : 'transparent',
-                        borderColor: isToday
-                          ? colors.accent
-                          : done
-                            ? colors.done
-                            : colors.border,
+                        borderColor: isToday ? colors.accent : done ? colors.done : colors.border,
                       },
                     ]}
                   />
