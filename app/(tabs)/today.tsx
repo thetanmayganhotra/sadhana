@@ -23,14 +23,6 @@ const PREVIEW = {
   todayIndex: 3,
 };
 
-/** Devanagari numerals, used ornamentally for step numbers (screen readers get "Step n"). */
-const DEVANAGARI_DIGITS = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
-const toDevanagari = (n: number) =>
-  String(n)
-    .split('')
-    .map((d) => DEVANAGARI_DIGITS[Number(d)])
-    .join('');
-
 export default function TodayScreen() {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
@@ -107,11 +99,11 @@ export default function TodayScreen() {
               ]}
             >
               <Text
-                variant="devanagari"
+                variant="numeral"
                 style={[styles.numeral, { color: colors.steps[i % colors.steps.length] }]}
                 accessibilityLabel={t('today.step', { count: i + 1 })}
               >
-                {toDevanagari(i + 1)}
+                {i + 1}
               </Text>
               <View style={styles.flowText}>
                 <Text variant="subheading">{t(`techniques.${item.id}`)}</Text>

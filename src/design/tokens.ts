@@ -7,6 +7,8 @@
  * Contrast of text pairs is enforced by src/design/__tests__/tokens.test.ts.
  */
 
+import type { TextStyle } from 'react-native';
+
 import type { StateId } from '@/content/types';
 
 export type ColorScheme = 'light' | 'dark';
@@ -34,7 +36,6 @@ export type YantraColors = {
   inner: string;
   bindu: string;
   glowA: string;
-  glowB: string;
 };
 
 export type Palette = {
@@ -77,8 +78,7 @@ export const palettes: Record<ColorScheme, Palette> = {
       star: pigments.peacock,
       inner: pigments.kumkum,
       bindu: pigments.kumkum,
-      glowA: '#FBDCC4', // dawn peach
-      glowB: '#F7D3DC', // lotus blush
+      glowA: '#FBE3D0', // dawn peach
     },
     danger: '#A3282A',
     focusRing: pigments.peacock,
@@ -105,7 +105,6 @@ export const palettes: Record<ColorScheme, Palette> = {
       inner: '#F08A6C',
       bindu: '#F08A6C',
       glowA: '#2B2440', // violet dusk
-      glowB: '#1D3038', // peacock night
     },
     danger: '#F0877C',
     focusRing: '#6FC6C0',
@@ -192,7 +191,6 @@ export const fonts = {
   sansLight: 'Jost_300Light',
   sans: 'Jost_400Regular',
   sansMedium: 'Jost_500Medium',
-  devanagari: 'TiroDevanagariSanskrit_400Regular',
 } as const;
 
 /**
@@ -224,16 +222,22 @@ export const typography = {
     textTransform: 'uppercase',
   },
   sanskrit: { fontFamily: fonts.serifItalic, fontSize: 16, lineHeight: 22 },
-  devanagari: { fontFamily: fonts.devanagari, fontSize: 24, lineHeight: 34 },
+  numeral: {
+    fontFamily: fonts.serif,
+    fontSize: 26,
+    lineHeight: 30,
+    fontVariant: ['lining-nums'] as TextStyle['fontVariant'],
+  },
 } as const;
 
 /**
  * Motion: slow, breath-paced, never bouncy. Everything eases in and out; nothing snaps.
- * Reduce Motion replaces movement with plain opacity (see FadeIn / Yantra).
+ * Minimal: screens only fade in; the yantra breathes by ±1%. Nothing rotates or slides.
+ * Reduce Motion: the yantra is static.
  */
 export const motion = {
-  duration: { fast: 150, base: 250, slow: 400, enter: 900, breath: 5000, drift: 120000 },
-  stagger: 110,
+  duration: { fast: 150, base: 250, slow: 400, enter: 700, breath: 6000 },
+  stagger: 70,
   /** cubic-bezier control points, for Reanimated's Easing.bezier(...). */
   easing: {
     standard: [0.4, 0.0, 0.2, 1] as const,

@@ -5,7 +5,6 @@
   "dependencies": {
     "@expo-google-fonts/cormorant-garamond": "^0.4.1",
     "@expo-google-fonts/jost": "^0.4.2",
-    "@expo-google-fonts/tiro-devanagari-sanskrit": "^0.4.1",
     "expo": "~57.0.26",
     "expo-constants": "~57.0.20",
     "expo-dev-client": "~57.0.19",

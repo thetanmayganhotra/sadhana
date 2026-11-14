@@ -3,7 +3,6 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
-  useReducedMotion,
   useSharedValue,
   withDelay,
   withTiming,
@@ -13,10 +12,7 @@ import { motion } from '../tokens';
 
 const enterEasing = Easing.bezier(...motion.easing.enter);
 
-/**
- * Calm entrance: fades in while drifting up a few points. `index` staggers siblings.
- * With Reduce Motion on, it only fades.
- */
+/** Calm entrance: a plain fade, no movement. `index` staggers siblings slightly. */
 export function FadeIn({
   index = 0,
   children,
@@ -26,7 +22,6 @@ export function FadeIn({
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
 }) {
-  const reduceMotion = useReducedMotion();
   const progress = useSharedValue(0);
 
   useEffect(() => {
@@ -36,10 +31,7 @@ export function FadeIn({
     );
   }, [index, progress]);
 
-  const animated = useAnimatedStyle(() => ({
-    opacity: progress.value,
-    transform: reduceMotion ? [] : [{ translateY: (1 - progress.value) * 10 }],
-  }));
+  const animated = useAnimatedStyle(() => ({ opacity: progress.value }));
 
   return <Animated.View style={[animated, style]}>{children}</Animated.View>;
 }

@@ -7,7 +7,6 @@ import {
   CormorantGaramond_500Medium,
 } from '@expo-google-fonts/cormorant-garamond';
 import { Jost_300Light, Jost_400Regular, Jost_500Medium } from '@expo-google-fonts/jost';
-import { TiroDevanagariSanskrit_400Regular } from '@expo-google-fonts/tiro-devanagari-sanskrit';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -25,7 +24,6 @@ export default function RootLayout() {
     Jost_300Light,
     Jost_400Regular,
     Jost_500Medium,
-    TiroDevanagariSanskrit_400Regular,
   });
 
   // Hold on a blank page of the right colour until fonts are ready (no flash of system type).
